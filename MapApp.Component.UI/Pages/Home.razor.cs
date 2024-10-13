@@ -1,5 +1,6 @@
 using MapApp.Component.LeafletMap.Models;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 
 namespace MapApp.Component.UI.Pages;
@@ -19,7 +20,9 @@ public partial class Home
 
     [Inject] private IJSRuntime? IJSRuntime { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    [Inject] private ILogger<Home>? Logger { get; set; }
+
+    protected override void OnInitialized()
     {
         _map = new LeafletMap.Map(id: "MapId", IJSRuntime!)
         {
@@ -39,7 +42,7 @@ public partial class Home
         };
         _map.OnError += (Exception ex) =>
         {   // Error during map initialization
-
+            Logger?.LogError(ex, message: "An Error thrown during a map initialization process.");
         };
     }
 }

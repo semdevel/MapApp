@@ -44,7 +44,7 @@ namespace MapApp.Component.LeafletMap
         /// geographical bounds, bouncing the user back if the user tries to pan
         /// outside the view.
         /// </summary>
-        public Tuple<LatLng, LatLng>? MaxBounds { get; set; }
+        public LatLngPair? MaxBounds { get; set; }
         /// <summary>
         /// Whether a zoom control is added to the map by default.
         /// <para/>
@@ -240,7 +240,6 @@ namespace MapApp.Component.LeafletMap
 
         public delegate void MapEventHandler(object sender, Event e);
         public delegate void MapResizeEventHandler(object sender, ResizeEvent e);
-#pragma warning disable RCS1159
         public event MapEventHandler? OnZoomLevelsChange;
         [JSInvokable]
         public void NotifyZoomLevelsChange(Event e) => OnZoomLevelsChange?.Invoke(this, e);
@@ -348,6 +347,5 @@ namespace MapApp.Component.LeafletMap
         [JSInvokable]
         public void NotifyContextMenu(MouseEvent eventArgs) => OnContextMenu?.Invoke(this, eventArgs);
         #endregion InteractiveLayerEvents
-#pragma warning restore RCS1159
     }
 }

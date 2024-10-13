@@ -1,5 +1,6 @@
 ﻿using MapApp.Services;
 using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace MapApp
 {
@@ -15,12 +16,23 @@ namespace MapApp
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 });
 
+            builder.Services.AddSerilog(
+                new LoggerConfiguration()
+                    .WriteTo.File(
+                        Path.Combine(
+                            FileSystem.AppDataDirectory, "logs", "logs.txt"),
+                        rollingInterval: RollingInterval.Day)
+                    .CreateLogger());
+
+            builder.Services.AddLogging(logging =>
+            {
+                logging.AddSerilog(dispose: true);
+            });
 
             builder.Services.AddSingleton<IWindowSizeChangedService, WindowSizeChangedService>();
             builder.Services.AddMauiBlazorWebView();
-
-#if DEBUG
-    		builder.Services.AddBlazorWebViewDeveloperTools();
+#if DEBUG   
+            builder.Services.AddBlazorWebViewDeveloperTools();
     		builder.Logging.AddDebug();
 #endif
 

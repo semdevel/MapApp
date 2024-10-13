@@ -24,6 +24,6 @@ namespace MapApp.Component.LeafletMap.Models
         /// <summary>
         /// If set, tiles will only be loaded inside the set.
         /// </summary>
-        public Tuple<LatLng, LatLng>? Bounds { get; set; }
+        public LatLngPair? Bounds { get; set; }
     }
 }
